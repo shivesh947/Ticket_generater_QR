@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="download.js"></script>
+  <script type="text/javascript" src="qrcode.js"></script>
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+<div class="container">
+  <h2>Entry Form</h2>
+  <form action="ticketadd.php" method="post" id="tckt_form" onsubmit="return formsubmit()">
+    <div class="form-group">
+      <label>Name</label><br>
+      <input type="text" class="form-control" id="name" placeholder="Enter Name" name="Uname" ><br>
+      <label>Phone-no:</label><br>
+      <input type="number" class="form-control" id="phone" placeholder="Enter Phone-no" name="phone" ><br>
+      <label>Date:</label><br>
+      <input type="Date" class="form-control" id="Date" name="udate" ><br>
+      <label>Time:</label><br>
+      <input type="time" class="form-control" id="time" name="utime" ><br>
+      <label>Route:</label><br>
+      <input type="text" class="form-control" id="Route" name="uRoute" ><br>
+      <label>Start:</label><br>
+      <input type="text" class="form-control" id="Start" name="uStart" ><br>
+      <label>Depart:</label><br>
+      <input type="text" class="form-control" id="Depart" name="uDepart" ><br>
+     </div>
+     <button type="submit" class="btn btn-primary" onclick="removesuccess()">Submit</button>
+  </form>
+</div>
+<br><br><br><br>
+<div class="container">
+<form action="ticket.php" method="post" id="tckchk" onsubmit="return checktick()">
+  <input type="text" name="ticket_number" placeholder="ticket_number">
+  <input type="submit" name="" >
+</form>
+</div>
+<div class="container">
+<h1 id="conftkt"></h1>
+<h3 id="success"></h3>
+<h3 id="Bookticketdata"></h3>
+</div>
+
+<script type="text/javascript">
+     function checktick()
+     {
+      $.ajax({
+        type: 'POST',
+        url: 'ticket.php',
+        data: $('#tckchk').serialize(),
+        success:function(response)
+        {
+          $('#success').html(response);
+        }
+      });
+      var form=document.getElementById('tckchk').reset();
+      return false;
+     }
+</script>
+<script type="text/javascript">
+     function formsubmit()
+     {
+      $.ajax({
+        type: 'POST',
+        url: 'ticketadd.php',
+        data: $('#tckt_form').serialize(),
+        success:function(response)
+        {
+          $('#conftkt').html(response);
+        }
+      });
+      var form=document.getElementById('tckt_form').reset();
+
+      return false;
+     }
+</script>
+
+
+<br><br>
+<div class="container">
+<input type="button" value="QRgenerate" onclick="qrgeratold()" name="">
+<input type="button" value="newQRgenerate" onclick="newqrgenerate()" name="">
+<input type="button" value="Clear" onclick="Clearr()" name="">
+<input id="text" type="hidden" value="a" /><br />
+<div id="qrcode"></div>
+</div>
+<script type="text/javascript">
+  function removesuccess()
+{
+ document.getElementById("success").innerHTML=" ";
+ document.getElementById("Bookticketdata").innerHTML=" ";
+}
+function Clearr()
+{
+ document.getElementById("text").value=" ";
+ document.getElementById("qrcode").innerHTML=" ";
+ document.getElementById("Bookticketdata").innerHTML=" ";
+ document.getElementById("conftkt").innerHTML=" ";
+}
+</script>
+<script type="text/javascript">
+  function newqrgenerate()
+  {
+    document.getElementById("qrcode").innerHTML=" ";
+    if(document.getElementById("conftkt").innerHTML!=" ")
+       {
+        document.getElementById("text").value=document.getElementById("conftkt").innerHTML;
+        qrrun();
+       }
+  }
+  function qrgeratold()
+  {
+    
+    document.getElementById("qrcode").innerHTML=" ";
+    if(document.getElementById("qrcode").innerHTML==" ")
+     {
+      document.getElementById("text").value=document.getElementById("Bookticketdata").innerHTML;
+      qrrun();
+    }
+  }
+
+function qrrun()
+{
+qrfun();
+function qrfun()
+{
+  var qrcode = new QRCode("qrcode");
+    function makeCode () {      
+    var elText = document.getElementById("text");
+    
+    if (!elText.value) {
+        alert("Input a text");
+        elText.focus();
+        return;
+    }
+    
+    qrcode.makeCode(elText.value);
+}
+
+makeCode();
+
+$("#text").
+    on("blur", function () {
+        makeCode();
+    }).
+    on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            makeCode();
+        }
+    });
+
+}
+}
+</script>
+
+</body>
+</html>
