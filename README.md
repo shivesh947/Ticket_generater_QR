@@ -1,4 +1,7 @@
 <h1>Ticket Generator</h1>
+<p>This application Help to Generate ticket and QR code for downloading data and verify for the time of entry</p>
+<p>Live Demo</p>
+<a href="https://kidoworld.000webhostapp.com/ticket/ticketbook.html">Click Here</a>
 <img src="https://shivesh947.github.io/imagesforreadme/tketbuk1.PNG" />
 <img src="https://shivesh947.github.io/imagesforreadme/tketbuk2.PNG" />
 <img src="https://shivesh947.github.io/imagesforreadme/tketbuk3.PNG" />
